@@ -135,7 +135,7 @@ body{background:#FBF3EC}.hex{display:none}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // ตั้งค่าเมื่อเก็บไฟล์นี้ไว้ที่ GitHub Pages: ใส่ลิงก์เว็บแอป Apps Script (ลงท้ายด้วย /exec) ถ้าเปิดจาก Apps Script โดยตรง ปล่อยว่างไว้
-const API_URL="";
+const API_URL="https://script.google.com/macros/s/AKfycbz86pve5VKAMwZuTT6CIzHstVU82K0NUNjFcbf6jkJHwp5TesCeYqjERWTZjneqMCw/exec";
 const GAS=typeof google!=='undefined'&&google.script&&google.script.run;
 function call(fn,...a){
   if(GAS)return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(e=>bad(new Error(String(e.message||e).replace(/^Error:\s*/,'')))) [fn](...a));
