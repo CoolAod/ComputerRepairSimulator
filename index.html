@@ -99,7 +99,24 @@ body{background:#FBF3EC}.hex{display:none}
 @media(max-width:700px){header nav{flex-wrap:wrap;overflow:visible}.rp-bar .btn{flex:1}}
 @media print{.doc{overflow:visible}.doc table.h,.doc table.rt{min-width:0}}
 .nosel{-webkit-user-select:none;user-select:none}
+.sk{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:18px;align-items:center}@media(max-width:800px){.sk{grid-template-columns:1fr}}
+.sk-r svg{width:100%;height:auto;max-width:440px;display:block;margin:auto}.sk-row{margin:12px 0}.sk-row .top{display:flex;justify-content:space-between;gap:8px;font-size:14px;align-items:baseline;flex-wrap:wrap}
+.sk-row small{color:var(--g5)}.sk-bar{height:13px;background:var(--g2);border-radius:7px;overflow:hidden;margin-top:5px}.sk-bar i{display:block;height:100%;border-radius:7px}.sk-lv{font-size:12px;color:#fff;border-radius:10px;padding:1px 9px;margin-left:6px}.sk-n{font-size:13px;color:var(--g5);margin:10px 0 0}
 </style></head><body>
+<script>
+(function(){
+  window.__bootOK=false;
+  function show(m){var e=document.getElementById('shopLine2');if(e){e.style.whiteSpace='normal';e.innerHTML=m}}
+  window.addEventListener('error',function(ev){
+    if(window.__bootOK)return;
+    show('⚠️ สคริปต์ของหน้านี้ทำงานผิดพลาด ('+String(ev.message||'').replace(/</g,'&lt;').slice(0,100)+')<br><small>ไฟล์อาจถูกคัดลอกไม่ครบ ให้อัปโหลดไฟล์ใหม่จากเครื่องโดยตรง (ห้ามคัดลอกผ่านแอปแชต) แล้วกด Ctrl+F5</small>');
+  });
+  setTimeout(function(){
+    var e=document.getElementById('shopLine2');
+    if(e&&/กำลังตรวจสถานะร้าน/.test(e.textContent))show('⚠️ ตรวจสถานะร้านไม่ได้ (รอเกิน 12 วินาที) <button onclick="location.reload()" style="margin-left:6px">ลองใหม่</button><br><small>ผู้ดูแล: กด F12 เปิดแท็บ Console ดูข้อผิดพลาด / ตรวจ API_URL และการ Deploy ของ Apps Script</small>');
+  },12000);
+})();
+</script>
 
 <section id="home" class="hm-page">
   <div class="hm"><div class="hm-top"><div class="lg"><img src="" id="hmLogo" alt=""><div><b>เกมจำลองสถานการณ์ร้านซ่อมคอมพิวเตอร์</b><i>Computer Repair Simulator</i></div></div>
@@ -135,7 +152,7 @@ body{background:#FBF3EC}.hex{display:none}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // ตั้งค่าเมื่อเก็บไฟล์นี้ไว้ที่ GitHub Pages: ใส่ลิงก์เว็บแอป Apps Script (ลงท้ายด้วย /exec) ถ้าเปิดจาก Apps Script โดยตรง ปล่อยว่างไว้
-const API_URL="https://script.google.com/macros/s/AKfycbz86pve5VKAMwZuTT6CIzHstVU82K0NUNjFcbf6jkJHwp5TesCeYqjERWTZjneqMCw/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbwFPdDP2YVYmyrbusBYracOjyWe2umJS12UMIx6r-Uv_rAfQEdxzU80AdvexuaTG7U8/exec";
 const GAS=typeof google!=='undefined'&&google.script&&google.script.run;
 function call(fn,...a){
   if(GAS)return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(e=>bad(new Error(String(e.message||e).replace(/^Error:\s*/,'')))) [fn](...a));
@@ -143,7 +160,9 @@ function call(fn,...a){
 }
 async function callHttp(fn,args){
   if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(API_URL))throw new Error('ยังไม่ได้ตั้งค่า API_URL ในไฟล์ index.html (ผู้ดูแลต้องใส่ลิงก์ /exec ของ Apps Script)');
-  let r;try{r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn,args}),keepalive:fn==='leave'})}catch(e){throw new Error('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาตรวจอินเทอร์เน็ตแล้วลองใหม่')}
+  let r;const ac=typeof AbortController!=='undefined'?new AbortController():null,tm=ac&&fn!=='leave'?setTimeout(()=>ac.abort(),25000):0;
+  try{r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn,args}),keepalive:fn==='leave',signal:ac?ac.signal:undefined})}catch(e){clearTimeout(tm);throw new Error(e&&e.name==='AbortError'?'เซิร์ฟเวอร์ตอบช้าเกินไป (เกิน 25 วินาที) ลองใหม่อีกครั้ง':'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: ตรวจลิงก์ API_URL, การ Deploy (Execute as: Me / Anyone) และอินเทอร์เน็ต')}
+  clearTimeout(tm);
   let j;try{j=await r.json()}catch(e){throw new Error('เซิร์ฟเวอร์ตอบกลับผิดรูปแบบ')}
   if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data;
 }
@@ -335,6 +354,7 @@ function guideHTML(){
   <details><summary>รายงานแสดงชื่ออะไร?</summary><p>รายงานใช้ <b>ชื่อ-สกุลจริง</b> ที่กรอกตอนสมัคร (แก้ได้ในหน้าโปรไฟล์) ส่วนอันดับแสดงชื่อที่แสดงในอันดับ</p></details>
   <details><summary>คะแนนและเงินถูกเก็บไว้ที่ไหน?</summary><p>ทุกครั้งที่ส่งมอบงาน ระบบจะบันทึกลงฐานข้อมูลของร้านทันที ออกจากระบบแล้วกลับมาเล่นต่อได้</p></details>
   <details><summary>ร้านเปิดเมื่อไหร่?</summary><p>ครูผู้ดูแลเป็นผู้กำหนดวันและเวลาเปิดร้าน ดูสถานะ 🟢/🔴 ได้ที่หน้าแรกและแถบด้านบน ถ้าร้านปิดจะรับลูกค้าไม่ได้ แต่ยังเข้าสู่ระบบ ดูอันดับ และดูโปรไฟล์ได้ งานที่รับมาแล้วส่งมอบได้ตามปกติ</p></details>
+  <details><summary>กราฟทักษะ 5 มิติในโปรไฟล์คืออะไร?</summary><p>แสดงระดับความเชี่ยวชาญของคุณ 5 ด้าน คำนวณอัตโนมัติจากงานซ่อมที่ผ่านมา: <b>ฮาร์ดแวร์</b>, <b>ซอฟต์แวร์และระบบปฏิบัติการ</b>, <b>เครือข่ายและการเชื่อมต่อ</b>, <b>ข้อมูลและความปลอดภัย</b> (ได้จากโจทย์ในมิตินั้น) และ <b>การวิเคราะห์และตรรกะ</b> (ได้จากการวินิจฉัยสาเหตุถูกต้องในทุกงาน และใช้ใบ้น้อย) งานที่ยากและซ่อมสำเร็จดาวสูงให้ค่ามากกว่า ต้องซ่อมสะสมหลายงานจึงจะเข้าใกล้ 100% ระดับ: เริ่มต้น (0-19), พื้นฐาน (20-39), ปานกลาง (40-59), ชำนาญ (60-79), เชี่ยวชาญ (80-100)</p></details>
   <details><summary>ออกจากหน้าจอแล้วเสียคะแนนไหม?</summary><p>เสียเฉพาะตอนที่คุณรับงานไว้แล้วและยังไม่ส่งมอบ ถ้าสลับแท็บหรือออกจากหน้าจอ ระบบหัก 50 คะแนนทันที (คะแนนไม่ต่ำกว่า 0) ตอนเลือกลูกค้าหรือดูอันดับไม่ถูกหัก ถ้าต้องไปทำอย่างอื่นให้กด "ปล่อยงานนี้" ก่อน</p></details>
   <details><summary>ซ่อมไม่สำเร็จเสียคะแนนไหม?</summary><p>ถ้าวินิจฉัยผิดจะถูกหักคะแนนเล็กน้อย แต่คะแนนรวมจะไม่ต่ำกว่า 0 และได้เฉลยเพื่อเรียนรู้ทุกครั้ง</p></details>
   <div style="text-align:center;margin:24px 0"><button class="btn" onclick="closeGuide()">เข้าใจแล้ว เริ่มเลย!</button></div>
@@ -415,6 +435,30 @@ async function rRank(){
   catch(e){fail(e)}
 }
 
+
+/* ---------- กราฟเรดาร์ทักษะ 5 มิติ ---------- */
+const SKO=['hw','sw','net','ana','data'];
+const SKN={hw:['ฮาร์ดแวร์','Hardware','ฮาร์ดแวร์'],sw:['ซอฟต์แวร์และระบบปฏิบัติการ','Software & OS','ซอฟต์แวร์/OS'],net:['เครือข่ายและการเชื่อมต่อ','Network & Connectivity','เครือข่าย'],ana:['การวิเคราะห์และตรรกะ','Analytical & Troubleshooting','วิเคราะห์/ตรรกะ'],data:['ข้อมูลและความปลอดภัย','Data & Security','ข้อมูล/ความปลอดภัย']};
+const skLv=s=>s>=80?['เชี่ยวชาญ','#2E9E5B']:s>=60?['ชำนาญ','#7BB32E']:s>=40?['ปานกลาง','#E0A21B']:s>=20?['พื้นฐาน','#F26A1B']:['เริ่มต้น','#8A8F98'];
+function radarSVG(sc){
+  const cx=190,cy=168,R=100,pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/5;return [cx+r*Math.cos(a),cy+r*Math.sin(a)]},f=p=>p.map(v=>v.toFixed(1)).join(',');
+  const ring=k=>SKO.map((_,i)=>f(pt(i,R*k/5))).join(' ');
+  const lab=SKO.map((k,i)=>{const p=pt(i,R+22),an=p[0]<cx-8?'end':p[0]>cx+8?'start':'middle',dy=i===0?-14:i>=2&&i<=3?10:0;
+    return `<text x="${p[0].toFixed(1)}" y="${(p[1]+dy).toFixed(1)}" text-anchor="${an}" font-size="14" fill="#4B4F56">${SKN[k][2]}</text><text x="${p[0].toFixed(1)}" y="${(p[1]+dy+15).toFixed(1)}" text-anchor="${an}" font-size="15" font-weight="700" fill="#F26A1B">${sc[k]||0}%</text>`}).join('');
+  return `<svg viewBox="-50 0 480 340" role="img" aria-label="กราฟเรดาร์ทักษะ 5 มิติ">${[1,2,3,4,5].map(k=>`<polygon points="${ring(k)}" fill="${k%2?'#FFF7F0':'#fff'}" stroke="#D9DCE0"/>`).join('')}
+   ${SKO.map((k,i)=>`<line x1="${cx}" y1="${cy}" x2="${f(pt(i,R)).split(',')[0]}" y2="${f(pt(i,R)).split(',')[1]}" stroke="#D9DCE0"/>`).join('')}
+   <polygon points="${SKO.map((k,i)=>f(pt(i,R*(sc[k]||0)/100))).join(' ')}" fill="#F26A1B55" stroke="#F26A1B" stroke-width="2.5" stroke-linejoin="round"/>
+   ${SKO.map((k,i)=>{const p=pt(i,R*(sc[k]||0)/100);return `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4" fill="#F26A1B" stroke="#fff" stroke-width="1.5"/>`}).join('')}${lab}</svg>`;
+}
+function skillHTML(S){
+  if(!S)return `<div class="panel"><h3>🕸️ ทักษะ 5 มิติ</h3><div class="empty">ยังโหลดข้อมูลทักษะไม่ได้ ลองรีเฟรชหน้านี้อีกครั้ง</div></div>`;
+  const by={};S.dims.forEach(d=>by[d.k]=d),sc={};SKO.forEach(k=>sc[k]=(by[k]||{}).score||0);
+  const bars=SKO.map(k=>{const d=by[k]||{score:0,n:0},l=skLv(d.score);
+    return `<div class="sk-row"><div class="top"><span><b>${SKN[k][0]}</b> <small>${SKN[k][1]}</small></span><span><b>${d.score}%</b><span class="sk-lv" style="background:${l[1]}">${l[0]}</span></span></div><div class="sk-bar" role="progressbar" aria-valuenow="${d.score}" aria-valuemin="0" aria-valuemax="100"><i style="width:${d.score}%;background:${l[1]}"></i></div><small>${k==='ana'?'จากงานซ่อมทั้งหมด '+d.n+' งาน':'จากงานในมิตินี้ '+d.n+' งาน'}</small></div>`}).join('');
+  return `<div class="panel"><h3>🕸️ ทักษะ 5 มิติ (Competency Mastery Level)</h3><div class="sk"><div class="sk-r">${radarSVG(sc)}</div><div>${bars}</div></div>
+   <p class="sk-n">${S.jobs?'คำนวณจากงานซ่อม '+S.jobs+' งานล่าสุดของคุณ':'ยังไม่มีงานซ่อม เริ่มรับงานเพื่อสร้างกราฟทักษะของคุณ'} • ยิ่งซ่อมสำเร็จมากและยากยิ่งสูง • ดูเกณฑ์ได้ในคู่มือ</p></div>`;
+}
+
 /* ---------- โปรไฟล์ / ตัวละคร / ร้านแต่งตัว ---------- */
 let CATG=null,DR=null,pt='ch';
 const getCat=async()=>CATG||(CATG=await call('catalog'));
@@ -430,6 +474,7 @@ async function needName(){while(!me.fn){const r=await Swal.fire({title:'กร�
 async function rProf(){
   const v=$('v-prof');v.innerHTML='<div class="empty">กำลังโหลด...</div>';
   try{await getCat();await loadB()}catch(e){return fail(e)}
+  let SKD=null;try{SKD=await call('skills',me.id,me.token)}catch(e){}
   if(!DR)DR=clone(me.look);
   const li=lg(me.score),dirty=JSON.stringify(DR)!==JSON.stringify(me.look);
   const sel=(on,k,inner,fn)=>`<button class="cgb${on?' on':''}${has(k)?'':' lk'}" onclick="${fn}">${inner}${tag(k)}</button>`;
@@ -445,7 +490,7 @@ async function rProf(){
    รหัสนักศึกษา: ${esc(me.sid)} • ห้อง: ${esc(me.room)}<br>สมัครเมื่อ: ${esc(me.created)} • อันดับรวม: ${B&&B.rank?'#'+B.rank+' / '+B.total:'-'}<br>คะแนน <b>${me.score.toLocaleString()}</b> • รายได้ ฿${me.money.toLocaleString()} • งาน ${me.done} (สำเร็จ ${me.correct}, ${acc(me)}%)<br>
    <div style="margin:8px 0;font-size:18px">🪙 <b>${me.coins.toLocaleString()}</b> เหรียญ <small style="color:var(--g5)">ได้จากการซ่อมและเลื่อนลีก</small></div>
    <button class="btn" onclick="saveDR()" ${dirty?'':'disabled'}>💾 บันทึกตัวละคร</button> <button class="btn alt" onclick="resetDR()" ${dirty?'':'disabled'}>↩ ยกเลิกการเปลี่ยน</button></div></div></div>
-   <div class="panel"><div class="pt">${[['ch','🧑 ตัวละคร'],['st','🎨 สี / หน้าตา'],['it','🎒 ไอเทม']].map(t=>`<button class="btn ${pt===t[0]?'':'alt'}" onclick="pt='${t[0]}';rProf()">${t[1]}</button>`).join('')}</div>${tab}</div>`;
+   ${skillHTML(SKD)}<div class="panel"><div class="pt">${[['ch','🧑 ตัวละคร'],['st','🎨 สี / หน้าตา'],['it','🎒 ไอเทม']].map(t=>`<button class="btn ${pt===t[0]?'':'alt'}" onclick="pt='${t[0]}';rProf()">${t[1]}</button>`).join('')}</div>${tab}</div>`;
 }
 function pickCh(i){if(CLV[i]>lg(me.score))return tst('ปลดล็อกเมื่อถึงลีก '+LG[CLV[i]][0],'info');DR.c=i;DR.oc=CH[i][4];DR.hc=CH[i][3];rProf()}
 function pickOpt(kind,i){ask(kind+':'+i,()=>{DR[kind]=i})}
@@ -560,6 +605,7 @@ async function qUI(){
   <div class="panel"><h3>จัดการโจทย์</h3><div class="row"><a class="btn" href="${esc(S.url)}" target="_blank" rel="noopener" style="text-align:center;text-decoration:none">📄 เปิดชีตโจทย์ (Questions)</a><button class="btn alt" onclick="qReload()">🔄 รีโหลดโจทย์</button>${S.rows===0?'<button class="btn alt" onclick="qSeed()">⬇️ นำเข้าโจทย์เริ่มต้น</button>':''}</div>
   <ul style="color:var(--g7);font-size:14px;padding-left:20px;margin:6px 0 0"><li><b>เพิ่ม</b> เติมแถวใหม่ท้ายตาราง (รหัสต้องไม่ซ้ำ) <b>แก้</b> พิมพ์ทับในชีตได้เลย <b>ลบ</b> ลบแถว หรือตั้งคอลัมน์ "เปิดใช้" เป็น "ปิด" เพื่อซ่อนชั่วคราว</li>
   <li>ช่อง "สาเหตุที่ถูกต้อง" และ "วิธีซ่อมที่ถูกต้อง" ใส่คำตอบที่ถูก ส่วน "ผิด 1-3" ใส่ตัวเลือกหลอก ระบบสลับตำแหน่งตัวเลือกให้เองทุกครั้ง</li>
+  <li>คอลัมน์ "มิติทักษะ" (ท้ายตาราง) กำหนดว่าโจทย์ข้อนั้นนับเป็นทักษะด้านใดในกราฟเรดาร์ของผู้เล่น (ถ้าเว้นว่าง ใช้ฮาร์ดแวร์/ซอฟต์แวร์ตามหมวด)</li>
   <li>แก้เสร็จกด <b>"รีโหลดโจทย์"</b> ผู้เล่นจะเห็นโจทย์ใหม่ในการ์ดลูกค้าชุดถัดไป (ถ้าไม่กด ระบบรีโหลดเองทุก 6 ชั่วโมง)</li></ul></div>
   ${S.warn.length?`<div class="panel"><h3>⚠️ พบแถวที่ใช้ไม่ได้ (${S.warn.length}) — ระบบข้ามแถวเหล่านี้</h3><ul>${S.warn.map(w=>`<li>${esc(w)}</li>`).join('')}</ul></div>`:'<div class="panel">✅ ทุกแถวที่เปิดใช้ผ่านการตรวจสอบ</div>'}`;
 }
@@ -586,7 +632,7 @@ window.addEventListener('beforeunload',e=>{if(cur&&!adm){e.preventDefault();e.re
 /* ---------- เปิด-ปิดร้าน ---------- */
 const dur=ms=>{const t=Math.floor(ms/1000);return (t>=86400?Math.floor(t/86400)+' วัน ':'')+(t>=3600?Math.floor(t%86400/3600)+' ชม. ':'')+Math.floor(t%3600/60)+' นาที '+t%60+' วินาที'};
 const shopTxt=s=>s.open?'🟢 ร้านเปิดให้เล่นอยู่'+(s.until?' (ถึง '+s.untilTxt+')':''):'🔴 ร้านปิดอยู่'+(s.mode==='closed'?' (ปิดชั่วคราว)':s.nextTxt?' • เปิดอีกครั้ง '+s.nextTxt:'');
-function authShop(){call('shopStatus').then(s=>{const t=shopTxt(s);$('shopLine').textContent=t;$('shopLine2').textContent=t}).catch(()=>{$('shopLine2').textContent=''})}
+function authShop(){call('shopStatus').then(s=>{const t=shopTxt(s);$('shopLine').textContent=t;$('shopLine2').textContent=t}).catch(e=>{$('shopLine2').textContent='⚠️ '+((e&&e.message)||'เชื่อมต่อระบบไม่ได้')})}
 function badge(){const b=$('shopBadge');if(b)b.textContent=SH&&me?(SH.open?'🟢 ร้านเปิด':'🔴 ร้านปิด'):''}
 function setShop(s){if(!s)return;s.off=s.now-Date.now();const ch=!SH||SH.open!==s.open;SH=s;badge();
   if(!s.open)P=[];if(ch&&me&&view==='play'&&!cur){rPlay();if(s.open)tst('ร้านเปิดแล้ว! รับลูกค้าได้เลย','success')}else if(ch&&me&&!s.open)tst('ร้านปิดแล้ว','warning');
@@ -631,6 +677,6 @@ function hmGo(k){
 }
 
 /* ---------- เริ่มต้น ---------- */
-(async()=>{$('homeBody').innerHTML=homeHTML();$('hmLogo').src=HM.logo;mode('reg');authShop();fillReg();let s=null;try{s=JSON.parse(localStorage.getItem(ST))}catch(e){}if(!s)return;
+(async()=>{$('homeBody').innerHTML=homeHTML();$('hmLogo').src=HM.logo;mode('reg');authShop();fillReg();window.__bootOK=true;let s=null;try{s=JSON.parse(localStorage.getItem(ST))}catch(e){}if(!s)return;
   try{if(s.admin){await call('adminList',s.admin);adm=s.admin}else me=await call('resume',s.id,s.token);enter()}catch(e){}})();
 </script></body></html>
