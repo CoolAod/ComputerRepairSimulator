@@ -113,7 +113,7 @@ body{background:#FBF3EC}.hex{display:none}
   });
   setTimeout(function(){
     var e=document.getElementById('shopLine2');
-    if(e&&/กำลังตรวจสถานะร้าน/.test(e.textContent))show('⚠️ ตรวจสถานะร้านไม่ได้ (รอเกิน 12 วินาที) <button onclick="location.reload()" style="margin-left:6px">ลองใหม่</button><br><small>ผู้ดูแล: กด F12 เปิดแท็บ Console ดูข้อผิดพลาด / ตรวจ API_URL และการ Deploy ของ Apps Script</small>');
+    if(e&&/กำลังตรวจสถานะร้าน/.test(e.textContent))show('⚠️ ตรวจสถานะร้านไม่ได้ (รอเกิน 12 วินาที) <button onclick="location.reload()" style="margin-left:6px">ลองใหม่</button><br><small>ผู้ดูแล: กด F12 เปิดแท็บ Console ดูข้อผิดพลาด / ตรวจ _URL และการ Deploy ของ Apps Script</small>');
   },12000);
 })();
 </script>
@@ -152,7 +152,7 @@ body{background:#FBF3EC}.hex{display:none}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // ตั้งค่าเมื่อเก็บไฟล์นี้ไว้ที่ GitHub Pages: ใส่ลิงก์เว็บแอป Apps Script (ลงท้ายด้วย /exec) ถ้าเปิดจาก Apps Script โดยตรง ปล่อยว่างไว้
-const API_URL="https://script.google.com/macros/s/AKfycbwFPdDP2YVYmyrbusBYracOjyWe2umJS12UMIx6r-Uv_rAfQEdxzU80AdvexuaTG7U8/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbz_ldI0CqNJ9Jf7wChvQM4X_uL3reKapfntahrhURHPDTs9Psi9rraUH8Lw0F3M-R3k/exec";
 const GAS=typeof google!=='undefined'&&google.script&&google.script.run;
 function call(fn,...a){
   if(GAS)return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(e=>bad(new Error(String(e.message||e).replace(/^Error:\s*/,'')))) [fn](...a));
