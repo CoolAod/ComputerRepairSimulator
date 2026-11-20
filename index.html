@@ -102,6 +102,7 @@ body{background:#FBF3EC}.hex{display:none}
 .sk{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:18px;align-items:center}@media(max-width:800px){.sk{grid-template-columns:1fr}}
 .sk-r svg{width:100%;height:auto;max-width:440px;display:block;margin:auto}.sk-row{margin:12px 0}.sk-row .top{display:flex;justify-content:space-between;gap:8px;font-size:14px;align-items:baseline;flex-wrap:wrap}
 .sk-row small{color:var(--g5)}.sk-bar{height:13px;background:var(--g2);border-radius:7px;overflow:hidden;margin-top:5px}.sk-bar i{display:block;height:100%;border-radius:7px}.sk-lv{font-size:12px;color:#fff;border-radius:10px;padding:1px 9px;margin-left:6px}.sk-n{font-size:13px;color:var(--g5);margin:10px 0 0}
+.pf{text-align:left}.pf .hd{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.pf .st{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:12px 0}.pf .st div{background:var(--g1);border-radius:8px;padding:8px 10px}.pf .st small{display:block;color:var(--g5);font-size:12px}.pf .st b{font-size:18px}.pf .panel{box-shadow:none;border:1px solid var(--g2);margin:0}.lb[onclick]:hover{outline:2px solid var(--o2)}
 </style></head><body>
 <script>
 (function(){
@@ -113,7 +114,7 @@ body{background:#FBF3EC}.hex{display:none}
   });
   setTimeout(function(){
     var e=document.getElementById('shopLine2');
-    if(e&&/กำลังตรวจสถานะร้าน/.test(e.textContent))show('⚠️ ตรวจสถานะร้านไม่ได้ (รอเกิน 12 วินาที) <button onclick="location.reload()" style="margin-left:6px">ลองใหม่</button><br><small>ผู้ดูแล: กด F12 เปิดแท็บ Console ดูข้อผิดพลาด / ตรวจ _URL และการ Deploy ของ Apps Script</small>');
+    if(e&&/กำลังตรวจสถานะร้าน/.test(e.textContent))show('⚠️ ตรวจสถานะร้านไม่ได้ (รอเกิน 12 วินาที) <button onclick="location.reload()" style="margin-left:6px">ลองใหม่</button><br><small>ผู้ดูแล: กด F12 เปิดแท็บ Console ดูข้อผิดพลาด / ตรวจ API_URL และการ Deploy ของ Apps Script</small>');
   },12000);
 })();
 </script>
@@ -152,7 +153,7 @@ body{background:#FBF3EC}.hex{display:none}
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 // ตั้งค่าเมื่อเก็บไฟล์นี้ไว้ที่ GitHub Pages: ใส่ลิงก์เว็บแอป Apps Script (ลงท้ายด้วย /exec) ถ้าเปิดจาก Apps Script โดยตรง ปล่อยว่างไว้
-const API_URL="https://script.google.com/macros/s/AKfycbz_ldI0CqNJ9Jf7wChvQM4X_uL3reKapfntahrhURHPDTs9Psi9rraUH8Lw0F3M-R3k/exec";
+const API_URL="";
 const GAS=typeof google!=='undefined'&&google.script&&google.script.run;
 function call(fn,...a){
   if(GAS)return new Promise((ok,bad)=>google.script.run.withSuccessHandler(ok).withFailureHandler(e=>bad(new Error(String(e.message||e).replace(/^Error:\s*/,'')))) [fn](...a));
@@ -293,7 +294,7 @@ const LG=[['Bronze','🥉',0],['Silver','🥈',500],['Gold','🥇',1200],['Plati
 const lg=s=>{let i=0;LG.forEach((l,k)=>{if(s>=l[2])i=k});return i};
 const badges=s=>`<div class="bgs" aria-label="ลีก">${LG.map((l,k)=>`<span class="bg${k>lg(s)?' lock':''}" title="${l[0]}">${k>lg(s)?'🔒':l[1]}</span>`).join('')}</div>`;
 const PC=['#F5A623','#9AA3AE','#C77B3E','#2BB3A3','#4C8DF6'];
-const pod=t=>`<div class="pod">${[3,1,0,2,4].map(i=>t[i]?`<div class="pp p${i+1}"><div class="pa">${av(t[i],50)}</div><b>${esc(t[i].name)}</b><span class="coin">${t[i].score}</span><div class="blk" style="background:${PC[i]}">${i+1}</div></div>`:'<div></div>').join('')}</div>`;
+const pod=t=>`<div class="pod">${[3,1,0,2,4].map(i=>t[i]?`<div class="pp p${i+1}" onclick="openProf('${t[i].id}')" style="cursor:pointer" title="ดูโปรไฟล์"><div class="pa">${av(t[i],50)}</div><b>${esc(t[i].name)}</b><span class="coin">${t[i].score}</span><div class="blk" style="background:${PC[i]}">${i+1}</div></div>`:'<div></div>').join('')}</div>`;
 const youChip=b=>me&&b&&b.rank?`<button class="you" onclick="goMe()"><span>${av(me,26)}</span> คุณ <b>#${b.rank}</b> ↓</button>`:'';
 function goMe(){if(view!=='rank')return setView('rank');const e=document.querySelector('#v-rank .lb.me');if(e)e.scrollIntoView({behavior:'smooth',block:'center'});else tst('คุณยังไม่อยู่ในรายการที่แสดง','info')}
 async function rDash(){
@@ -346,7 +347,7 @@ function guideHTML(){
    <b>วิธีได้เหรียญ:</b> สมัครใหม่รับ 30 เหรียญ • ซ่อมสำเร็จ 12 / 16 / 20 เหรียญ (ระดับ 1 / 2 / 3) และ +4 เมื่อได้ 5 ดาว • วินิจฉัยถูกแต่ซ่อมผิด 4 เหรียญ • เลื่อนลีก Silver +60, Gold +120, Platinum +250, Diamond +500<br><br>
    <b>ใช้เหรียญที่เมนู "โปรไฟล์":</b> เลือกตัวละครได้ 14 แบบ (บางตัวปลดล็อกเมื่อถึงลีกที่กำหนด) เปลี่ยนสีชุด สีผม หน้าตา และใส่ไอเทมได้ 4 ช่อง (หมวก ใบหน้า เครื่องมือ ของถือ) ไอเทมที่ซื้อแล้วเป็นของคุณถาวร กด "บันทึกตัวละคร" เพื่อให้เพื่อนเห็นในอันดับ</div>
   <h2>เคล็ดลับช่างมือโปร</h2>
-  <ul><li><b>ห้ามออกจากหน้าจอระหว่างซ่อมงาน</b> (สลับแท็บ ย่อหน้าต่าง หรือสลับแอป) ถ้าออกจะ <b>หัก 50 คะแนน</b> ต่อครั้ง และระบบบันทึกเหตุการณ์ไว้ให้ครูตรวจสอบ</li><li>อ่านอาการให้ครบ แล้ว <b>ลองถามเบาะแสข้อเดียวก่อน</b> ถ้ามั่นใจค่อยตอบ</li><li>สาเหตุกับวิธีซ่อมต้อง <b>สอดคล้องกัน</b> วิธีที่เกินเหตุ (เช่น เปลี่ยนเมนบอร์ดทันที) มักไม่ใช่คำตอบ</li><li>เริ่มจาก <b>การตรวจง่ายก่อนแพง</b> เช่น สาย การเสียบ การตั้งค่า แล้วค่อยคิดถึงการเปลี่ยนอุปกรณ์</li><li>งานระดับสูงให้คะแนนมาก แต่ถ้าไม่มั่นใจ ให้ <b>ปล่อยงาน</b> แล้วรับงานที่ถนัดแทน</li><li>เล่นสม่ำเสมอ ซ่อมสำเร็จติดต่อกันได้ 10 งานเพื่อเติมแถบความคืบหน้า</li></ul>
+  <ul><li><b>ห้ามออกจากหน้าจอระหว่างซ่อมงาน</b> (สลับแท็บ ย่อหน้าต่าง หรือสลับแอป) ถ้าออกจะ <b>หัก 50 คะแนน</b> ต่อครั้ง (นับเมื่อออกนานเกิน 3 วินาที) และระบบบันทึกเหตุการณ์ไว้ให้ครูตรวจสอบ</li><li>อ่านอาการให้ครบ แล้ว <b>ลองถามเบาะแสข้อเดียวก่อน</b> ถ้ามั่นใจค่อยตอบ</li><li>สาเหตุกับวิธีซ่อมต้อง <b>สอดคล้องกัน</b> วิธีที่เกินเหตุ (เช่น เปลี่ยนเมนบอร์ดทันที) มักไม่ใช่คำตอบ</li><li>เริ่มจาก <b>การตรวจง่ายก่อนแพง</b> เช่น สาย การเสียบ การตั้งค่า แล้วค่อยคิดถึงการเปลี่ยนอุปกรณ์</li><li>งานระดับสูงให้คะแนนมาก แต่ถ้าไม่มั่นใจ ให้ <b>ปล่อยงาน</b> แล้วรับงานที่ถนัดแทน</li><li>เล่นสม่ำเสมอ ซ่อมสำเร็จติดต่อกันได้ 10 งานเพื่อเติมแถบความคืบหน้า</li></ul>
   <h2>คำถามที่พบบ่อย</h2>
   <details><summary>การ์ดลูกค้าที่จะกดหายไปเอง?</summary><p>ลูกค้ารอได้แค่ 30-60 วินาที หรือมีเพื่อนกดรับไปก่อนแล้ว ซึ่งจะขึ้นป้าย 🔒 พร้อมชื่อช่างที่รับ รอลูกค้าคนใหม่เข้าร้านได้เลย</p></details>
   <details><summary>ลืม PIN ทำอย่างไร?</summary><p>แจ้งครูผู้ดูแล (แอดมิน) ให้ตั้ง PIN ใหม่ให้ในหน้าจัดการพนักงาน</p></details>
@@ -355,7 +356,7 @@ function guideHTML(){
   <details><summary>คะแนนและเงินถูกเก็บไว้ที่ไหน?</summary><p>ทุกครั้งที่ส่งมอบงาน ระบบจะบันทึกลงฐานข้อมูลของร้านทันที ออกจากระบบแล้วกลับมาเล่นต่อได้</p></details>
   <details><summary>ร้านเปิดเมื่อไหร่?</summary><p>ครูผู้ดูแลเป็นผู้กำหนดวันและเวลาเปิดร้าน ดูสถานะ 🟢/🔴 ได้ที่หน้าแรกและแถบด้านบน ถ้าร้านปิดจะรับลูกค้าไม่ได้ แต่ยังเข้าสู่ระบบ ดูอันดับ และดูโปรไฟล์ได้ งานที่รับมาแล้วส่งมอบได้ตามปกติ</p></details>
   <details><summary>กราฟทักษะ 5 มิติในโปรไฟล์คืออะไร?</summary><p>แสดงระดับความเชี่ยวชาญของคุณ 5 ด้าน คำนวณอัตโนมัติจากงานซ่อมที่ผ่านมา: <b>ฮาร์ดแวร์</b>, <b>ซอฟต์แวร์และระบบปฏิบัติการ</b>, <b>เครือข่ายและการเชื่อมต่อ</b>, <b>ข้อมูลและความปลอดภัย</b> (ได้จากโจทย์ในมิตินั้น) และ <b>การวิเคราะห์และตรรกะ</b> (ได้จากการวินิจฉัยสาเหตุถูกต้องในทุกงาน และใช้ใบ้น้อย) งานที่ยากและซ่อมสำเร็จดาวสูงให้ค่ามากกว่า ต้องซ่อมสะสมหลายงานจึงจะเข้าใกล้ 100% ระดับ: เริ่มต้น (0-19), พื้นฐาน (20-39), ปานกลาง (40-59), ชำนาญ (60-79), เชี่ยวชาญ (80-100)</p></details>
-  <details><summary>ออกจากหน้าจอแล้วเสียคะแนนไหม?</summary><p>เสียเฉพาะตอนที่คุณรับงานไว้แล้วและยังไม่ส่งมอบ ถ้าสลับแท็บหรือออกจากหน้าจอ ระบบหัก 50 คะแนนทันที (คะแนนไม่ต่ำกว่า 0) ตอนเลือกลูกค้าหรือดูอันดับไม่ถูกหัก ถ้าต้องไปทำอย่างอื่นให้กด "ปล่อยงานนี้" ก่อน</p></details>
+  <details><summary>ออกจากหน้าจอแล้วเสียคะแนนไหม?</summary><p>เสียเฉพาะตอนที่คุณรับงานไว้แล้วและยังไม่ส่งมอบ ถ้าสลับแท็บหรือแอปไปนานเกิน 3 วินาทีแล้วกลับมา ระบบหัก 50 คะแนน (ออกชั่วครู่ เช่น แจ้งเตือนหรือแผงควบคุมของมือถือ ไม่หัก) (คะแนนไม่ต่ำกว่า 0) ตอนเลือกลูกค้าหรือดูอันดับไม่ถูกหัก ถ้าต้องไปทำอย่างอื่นให้กด "ปล่อยงานนี้" ก่อน</p></details>
   <details><summary>ซ่อมไม่สำเร็จเสียคะแนนไหม?</summary><p>ถ้าวินิจฉัยผิดจะถูกหักคะแนนเล็กน้อย แต่คะแนนรวมจะไม่ต่ำกว่า 0 และได้เฉลยเพื่อเรียนรู้ทุกครั้ง</p></details>
   <div style="text-align:center;margin:24px 0"><button class="btn" onclick="closeGuide()">เข้าใจแล้ว เริ่มเลย!</button></div>
   </div>`;
@@ -430,7 +431,7 @@ async function rRank(){
    ${fr?'':`<div class="row"><div><label for="rf">แสดงเฉพาะ</label><select id="rf" onchange="rRank()"><option value="">ทุกชั้นปี / ห้อง</option>${YEARS.map(y=>`<option value="${y}">ระดับ ${y}</option>`).join('')}${ROOMS.map(r=>`<option>${r}</option>`).join('')}</select></div></div>`}
    <div class="panel" id="rb"><div class="empty">กำลังโหลด...</div></div>`;
   if($('rf'))$('rf').value=keep;
-  try{const b=await loadB(f);const row=(p,i)=>{const l=LG[lg(p.score)];return `<div class="lb${me&&p.id===me.id?' me':''}"><span class="r">${p.rank||i+1}</span><span>${av(p,30)}</span><span class="n">${esc(p.name)}<span class="tg">${l[1]} ${l[0]}</span></span><b class="coin">${me&&p.id===me.id?me.score:p.score}</b></div>`};
+  try{const b=await loadB(f);const row=(p,i)=>{const l=LG[lg(p.score)];return `<div class="lb${me&&p.id===me.id?' me':''}" role="button" tabindex="0" onclick="openProf('${p.id}')" onkeydown="if(event.key==='Enter')openProf('${p.id}')" style="cursor:pointer" title="ดูโปรไฟล์และทักษะ"><span class="r">${p.rank||i+1}</span><span>${av(p,30)}</span><span class="n">${esc(p.name)}<span class="tg">${l[1]} ${l[0]}</span></span><b class="coin">${me&&p.id===me.id?me.score:p.score}</b></div>`};
     $('rb').innerHTML=(b.top.length?pod(b.top)+'<div style="height:12px"></div>':'')+(b.top.map(row).join('')||'<div class="empty">ยังไม่มีพนักงานในกลุ่มนี้</div>')+(b.rank>30?'<div class="sep" style="text-align:center">...</div>'+b.around.filter(p=>p.rank>30).map(row).join(''):'')+youChip(b)}
   catch(e){fail(e)}
 }
@@ -516,11 +517,14 @@ async function rAdm(){
   aTab==='mgr'?mgr():aTab==='rep'?repUI():aTab==='q'?qUI():shopUI();
 }
 function mgr(){
-  $('adB').innerHTML=`<div class="panel"><div class="row"><div><label for="q">ค้นหา ชื่อ / รหัส / ห้อง</label><input id="q" oninput="mgrRows()"></div><button class="btn" onclick="editP('')">+ เพิ่มพนักงาน</button></div>
-   <div class="tw"><table><thead><tr><th>ตัวละคร</th><th>ชื่อ-สกุล / ชื่อเล่น</th><th>รหัส</th><th>ห้อง</th><th>คะแนน</th><th>รายได้</th><th>เหรียญ</th><th>งาน</th><th>จัดการ</th></tr></thead><tbody id="tb"></tbody></table></div></div>`;mgrRows();
+  $('adB').innerHTML=`<div class="panel"><div class="row"><div><label for="q">ค้นหา ชื่อ / รหัส / ห้อง</label><input id="q" oninput="mgrRows()"></div><div><label for="srt">เรียงตาม</label><select id="srt" onchange="mgrRows()"><option value="score">คะแนน (มาก → น้อย)</option><option value="sid_asc">รหัสนักศึกษา (น้อย → มาก)</option><option value="sid_desc">รหัสนักศึกษา (มาก → น้อย)</option><option value="name">ชื่อ-สกุล (ก → ฮ)</option><option value="room">ห้อง / ชั้นปี</option></select></div><button class="btn" onclick="editP('')">+ เพิ่มพนักงาน</button></div>
+   <div class="tw"><table><thead><tr><th>ตัวละคร</th><th>ชื่อ-สกุล / ชื่อเล่น</th><th style="cursor:pointer" onclick="sortSid()" title="กดเพื่อเรียงตามรหัส">รหัส ↕</th><th>ห้อง</th><th>คะแนน</th><th>รายได้</th><th>เหรียญ</th><th>งาน</th><th>จัดการ</th></tr></thead><tbody id="tb"></tbody></table></div></div>`;mgrRows();
 }
+const nc=(x,y)=>String(x).localeCompare(String(y),'th',{numeric:true});
+const CMP={score:(a,b)=>b.score-a.score,sid_asc:(a,b)=>nc(a.sid,b.sid),sid_desc:(a,b)=>nc(b.sid,a.sid),name:(a,b)=>nc(a.fn||a.name,b.fn||b.name),room:(a,b)=>nc(a.room,b.room)||nc(a.sid,b.sid)};
+function sortSid(){const s=$('srt');s.value=s.value==='sid_asc'?'sid_desc':'sid_asc';mgrRows()}
 function mgrRows(){const q=$('q').value.toLowerCase();
-  $('tb').innerHTML=AD.filter(p=>(p.name+(p.fn||'')+p.sid+p.room).toLowerCase().includes(q)).sort((a,b)=>b.score-a.score).map(p=>`<tr><td>${av(p,34)}</td><td>${esc(p.fn||'-')}<br><small>${esc(p.name)}</small></td><td>${esc(p.sid)}</td><td>${esc(p.room)}</td><td>${p.score}</td><td>${p.money}</td><td>${p.coins||0}</td><td>${p.done}</td><td><button class="btn alt sm" onclick="openReport('${p.id}')">ใบงาน</button> <button class="btn alt sm" onclick="editP('${p.id}')">แก้ไข</button> <button class="btn sm" onclick="delP('${p.id}')">ลบ</button></td></tr>`).join('')||'<tr><td colspan="9">ไม่พบข้อมูล</td></tr>'}
+  $('tb').innerHTML=AD.filter(p=>(p.name+(p.fn||'')+p.sid+p.room).toLowerCase().includes(q)).sort(CMP[$('srt')?$('srt').value:'score']||CMP.score).map(p=>`<tr><td>${av(p,34)}</td><td>${esc(p.fn||'-')}<br><small>${esc(p.name)}</small></td><td>${esc(p.sid)}</td><td>${esc(p.room)}</td><td>${p.score}</td><td>${p.money}</td><td>${p.coins||0}</td><td>${p.done}</td><td><button class="btn alt sm" onclick="openReport('${p.id}')">ใบงาน</button> <button class="btn alt sm" onclick="editP('${p.id}')">แก้ไข</button> <button class="btn sm" onclick="delP('${p.id}')">ลบ</button></td></tr>`).join('')||'<tr><td colspan="9">ไม่พบข้อมูล</td></tr>'}
 async function editP(id){
   const p=id?AD.find(x=>x.id===id):{name:'',fn:'',sid:'',room:ROOMS[0],score:0,money:0,coins:0};
   const r=await Swal.fire({title:id?'แก้ไขพนักงาน':'เพิ่มพนักงาน',confirmButtonColor:OR,showCancelButton:true,confirmButtonText:'บันทึก',cancelButtonText:'ยกเลิก',
@@ -615,19 +619,45 @@ async function qSeed(){const r=await Swal.fire({icon:'question',title:'นำเ
 
 
 /* ---------- ป้องกันการออกจากหน้าจอระหว่างซ่อมงาน (หัก 50 คะแนน) ---------- */
-let away=false,leaveMsg=0;
+// มือถือ (iPhone/Android): นับเฉพาะตอนสลับแอป/แท็บจริง ไม่ใช้ blur/hasFocus เพราะ iOS รายงานผิดบ่อย
+// ทุกอุปกรณ์: ต้องออกจากหน้าจอนานเกิน GRACE แล้วกลับมาจึงหัก (แจ้งเตือน/แผงควบคุมที่ผ่านไวๆ ไม่หัก)
+let away=false,leaveMsg=0,hiddenAt=0;
+const TOUCH=(window.matchMedia&&matchMedia('(pointer:coarse)').matches)||/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const GRACE=3000;
+function markAway(){if(!hiddenAt&&cur&&!busy&&me&&!adm)hiddenAt=Date.now()}
 function onLeave(){
-  if(away||!cur||busy||!me||adm)return;      // เฉพาะตอนมีงานที่รับไว้และยังไม่ส่งมอบ
+  if(away||!cur||busy||!me||adm)return;
   away=true;
   call('leave',me.id,me.token).then(r=>{if(r&&r.pen>0){Object.assign(me,r.me);chip();rSide();leaveMsg=r.pen;showLeave()}}).catch(()=>{});
 }
-function showLeave(){if(leaveMsg&&!document.hidden){const p=leaveMsg;leaveMsg=0;Swal.fire({icon:'warning',title:'ออกจากหน้าจอ',html:`ตรวจพบว่าคุณออกจากหน้าจอระหว่างซ่อมงาน<br><b>หัก ${p} คะแนน</b><br><small>กรุณาอยู่ที่หน้าจอนี้จนกว่าจะส่งมอบงาน</small>`,confirmButtonColor:OR})}}
-function onBack(){if(!document.hidden){away=false;showLeave()}}
-document.addEventListener('visibilitychange',()=>document.hidden?onLeave():onBack());
-window.addEventListener('blur',()=>setTimeout(()=>{if(!document.hidden&&!document.hasFocus())onLeave()},400));
-window.addEventListener('focus',onBack);
+function showLeave(){if(leaveMsg&&!document.hidden){const p=leaveMsg;leaveMsg=0;Swal.fire({icon:'warning',title:'ออกจากหน้าจอ',html:`ตรวจพบว่าคุณออกจากหน้าจอระหว่างซ่อมงานนานเกิน ${GRACE/1000} วินาที<br><b>หัก ${p} คะแนน</b><br><small>กรุณาอยู่ที่หน้าจอนี้จนกว่าจะส่งมอบงาน</small>`,confirmButtonColor:OR})}}
+function onBack(){
+  if(document.hidden)return;
+  away=false;
+  if(hiddenAt){const d=Date.now()-hiddenAt;hiddenAt=0;if(d>=GRACE)onLeave()}
+  showLeave();
+}
+document.addEventListener('visibilitychange',()=>document.hidden?markAway():onBack());
+if(!TOUCH){
+  window.addEventListener('blur',()=>setTimeout(()=>{if(!document.hidden&&!document.hasFocus())markAway()},400));
+  window.addEventListener('focus',onBack);
+}
 window.addEventListener('beforeunload',e=>{if(cur&&!adm){e.preventDefault();e.returnValue=''}});
 ['copy','cut','paste','contextmenu'].forEach(t=>document.addEventListener(t,e=>{if(cur&&!adm&&e.target.closest&&e.target.closest('#main'))e.preventDefault()}));
+
+
+/* ---------- ดูโปรไฟล์ของผู้เล่นคนอื่น (คลิกจากอันดับ) ---------- */
+async function openProf(id){
+  load('กำลังโหลดโปรไฟล์...');
+  try{
+    const P=adm?await call('adminProfile',adm,id):await call('publicProfile',me.id,me.token,id);
+    const l=LG[lg(P.score)],ac=P.done?Math.round(100*P.correct/P.done):0,s=(t,v)=>`<div><small>${t}</small><b>${v}</b></div>`;
+    const who=P.look?charSVG(P.look,130):av(P,90);
+    await Swal.fire({width:'min(780px,96vw)',confirmButtonText:'ปิด',confirmButtonColor:OR,html:`<div class="pf"><div class="hd"><div>${who}</div><div style="min-width:200px"><h3 style="margin:0">${esc(P.name)} <span class="tg">${l[1]} ${l[0]}</span></h3>
+      <div style="color:var(--g7)">ห้อง ${esc(P.room)}${P.fn?` • ${esc(P.fn)} (${esc(P.sid)})`:''}${P.created?` • สมัคร ${esc(P.created)}`:''}</div></div></div>
+      <div class="st">${s('คะแนน',P.score.toLocaleString())}${s('งานที่ทำ',P.done)}${s('ซ่อมสำเร็จ',P.correct+' ('+ac+'%)')}${s('ต่อเนื่อง',P.streak+' งาน')}${P.money!==undefined?s('รายได้','฿'+P.money.toLocaleString())+s('เหรียญ','🪙 '+P.coins):''}</div>${skillHTML(P.skills)}</div>`});
+  }catch(e){fail(e)}
+}
 
 /* ---------- เปิด-ปิดร้าน ---------- */
 const dur=ms=>{const t=Math.floor(ms/1000);return (t>=86400?Math.floor(t/86400)+' วัน ':'')+(t>=3600?Math.floor(t%86400/3600)+' ชม. ':'')+Math.floor(t%3600/60)+' นาที '+t%60+' วินาที'};

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ใบงานออนไลน์ วินิจฉัยอาการเสียคอมพิวเตอร์ | 31910-2023</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--o:#F26A1B;--o2:#FFE3D0;--ink:#2B2D31;--mut:#6B7078;--line:#E1DED8;--paper:#FFFDF9;--bg:#F4EFE8;--ok:#1F8F55;--no:#D1402F}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Sarabun,"Noto Sans Thai",Tahoma,system-ui,sans-serif;line-height:1.55}
+button,select,input,textarea{font:inherit}:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.top{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;border-bottom:4px solid var(--o);padding:8px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.top b{flex:1;min-width:200px}.top select,.top button,.top a{background:#4B4F56;color:#fff;border:0;border-radius:8px;padding:7px 12px;text-decoration:none;font-size:14px;cursor:pointer}.top .pri{background:var(--o)}
+.sheet{max-width:900px;margin:16px auto;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px 22px 28px;box-shadow:0 4px 18px #0002}
+h1{margin:0 0 4px;font-size:26px}h2{margin:26px 0 10px;font-size:19px;display:flex;gap:8px;align-items:center}h2::before{content:'';width:6px;height:22px;background:var(--o);border-radius:3px}
+.sub{color:var(--mut);margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+label{display:block;font-size:14px;color:var(--mut);margin-bottom:3px}input[type=text],textarea{width:100%;border:2px solid var(--line);border-radius:8px;padding:9px;background:#fff}
+input:focus,textarea:focus{border-color:var(--o);outline:0}textarea{min-height:84px;resize:vertical}
+.box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}.box ul,.box ol{margin:6px 0 0;padding-left:22px}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;counter-reset:s;margin:0;padding:0;list-style:none}
+.flow li{counter-increment:s;background:var(--o2);border-radius:10px;padding:8px 10px;font-size:14px}.flow li::before{content:counter(s);display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--o);color:#fff;font-weight:700;margin-right:6px;font-size:13px}
+.chk label{display:flex;gap:8px;align-items:flex-start;color:var(--ink);font-size:15px;margin:6px 0}.chk input{margin-top:5px}
+.q{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px;margin:14px 0}.q.good{border-color:var(--ok)}.q.bad{border-color:var(--no)}
+.q h3{margin:0 0 6px;font-size:17px}.lv{color:var(--o);font-size:14px;margin-left:6px}.sym{background:#F6F1EA;border-left:5px solid var(--o);border-radius:0 8px 8px 0;padding:9px 12px;margin:6px 0}
+.hint{font-size:14px;color:var(--mut);margin:6px 0 0}.opt{margin-top:10px}.opt>b{display:block;margin-bottom:4px}
+.opt label{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border:2px solid var(--line);border-radius:8px;margin:5px 0;cursor:pointer;color:var(--ink);font-size:15px}
+.opt label:has(input:checked){border-color:var(--o);background:var(--o2)}.opt input{margin-top:5px}
+.fb{margin-top:8px;font-size:14px}.fb .g{color:var(--ok);font-weight:700}.fb .r{color:var(--no);font-weight:700}
+.bar{height:8px;background:var(--line);border-radius:5px;overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--o);width:0;transition:width .3s}
+.res{background:linear-gradient(135deg,#F26A1B,#FF9A4D);color:#fff;border-radius:14px;padding:18px;text-align:center;margin:18px 0}.res b{font-size:46px;display:block;line-height:1.1}
+.btn{background:var(--o);color:#fff;border:0;border-radius:10px;padding:12px 22px;font-weight:700;font-size:16px;cursor:pointer}.btn:disabled{background:#B9B5AE;cursor:not-allowed}.btn.alt{background:#E6E2DB;color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}.card{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px;text-align:left;cursor:pointer}.card:hover{border-color:var(--o)}.card small{color:var(--mut)}
+.err{background:#FDE8E4;border-left:5px solid var(--no);padding:10px 12px;border-radius:0 8px 8px 0;margin:12px 0}
+.foot{max-width:900px;margin:0 auto 30px;padding:0 16px;color:var(--mut);font-size:13px;text-align:center}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;z-index:9;display:none}
+@media print{.top,.noprint,.foot,#toast{display:none!important}body{background:#fff}.sheet{box-shadow:none;border:0;margin:0;max-width:none}.q{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="top"><b>📝 ใบงานออนไลน์ • วิชา 31910-2023 การบำรุงรักษาคอมพิวเตอร์และอุปกรณ์พกพา</b>
+  <select id="sel" aria-label="เลือกใบงาน"></select><button id="clr" class="noprint">ล้างข้อมูลบทนี้</button><button id="prt">🖨️ พิมพ์ / PDF</button><a href="index.html" class="pri">← กลับหน้าเกม</a></div>
+<main class="sheet" id="sheet"><p class="sub">กำลังโหลดใบงาน...</p></main>
+<div class="foot">คำตอบและคะแนนถูกบันทึกลง Google Sheets ของผู้สอนเมื่อกด "ส่งใบงาน" • ระหว่างทำ ระบบจดจำคำตอบไว้ในเบราว์เซอร์นี้ให้อัตโนมัติ • ใช้ปุ่มพิมพ์แล้วเลือก "บันทึกเป็น PDF" เพื่อเก็บสำเนา</div>
+<div id="toast" role="status"></div>
+<script>
+// ===== ตั้งค่าที่เดียว: ลิงก์เว็บแอป Apps Script (ลงท้ายด้วย /exec) ชุดเดียวกับหน้าเกม =====
+const API_URL="";
+// =========================================================================================
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2600)}
+async function api(fn,...args){
+  if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(API_URL))throw new Error('ยังไม่ได้ตั้งค่า API_URL ในไฟล์ worksheet.html (ผู้สอนต้องใส่ลิงก์ /exec ของ Apps Script)');
+  const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),25000);let r;
+  try{r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({fn,args}),signal:ac.signal})}
+  catch(e){throw new Error(e.name==='AbortError'?'เซิร์ฟเวอร์ตอบช้าเกินไป ลองใหม่อีกครั้ง':'เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ กรุณาตรวจอินเทอร์เน็ตแล้วลองใหม่')}
+  clearTimeout(tm);let j;try{j=await r.json()}catch(e){throw new Error('เซิร์ฟเวอร์ตอบกลับผิดรูปแบบ')}
+  if(!j.ok)throw new Error(j.error||'เกิดข้อผิดพลาด');return j.data;
+}
+const KEY=i=>'ws31910-'+i,INFO='ws31910-info';
+let LS=[],W=null,S=null,idx=null,done=false;
+const load=i=>{try{return JSON.parse(localStorage.getItem(KEY(i)))||{}}catch(e){return {}}};
+const save=()=>{try{localStorage.setItem(KEY(idx),JSON.stringify(S));localStorage.setItem(INFO,JSON.stringify({name:S.name,sid:S.sid,cls:S.cls}))}catch(e){}};
+function fail(e){$('sheet').innerHTML=`<h1>ใบงานออนไลน์</h1><div class="err"><b>⚠️ ${esc(e.message)}</b></div><button class="btn" onclick="start()">ลองใหม่</button>`}
+async function start(){
+  try{
+    LS=await api('wsLessons');
+    $('sel').innerHTML='<option value="">— เลือกใบงาน —</option>'+LS.map(l=>`<option value="${l.id}">${esc(l.title)} (${l.n} ข้อ)</option>`).join('');
+    const p=new URLSearchParams(location.search).get('lesson');
+    if(p!==null&&p!==''&&LS[+p])openLesson(+p);else menu();
+  }catch(e){fail(e)}
+}
+function menu(){
+  idx=null;$('sel').value='';$('sheet').innerHTML=`<h1>ใบงานออนไลน์</h1><p class="sub">วินิจฉัยอาการเสียคอมพิวเตอร์ • เลือกใบงานที่ต้องการทำ</p><div class="cards">${LS.map(l=>`<button class="card" onclick="openLesson(${l.id})"><b>${esc(l.title)}</b><br><small>${l.n} ข้อ • คะแนนเต็ม 10 • ตรวจอัตโนมัติ</small></button>`).join('')}</div>`;
+}
+async function openLesson(i){
+  $('sheet').innerHTML='<p class="sub">กำลังโหลดใบงาน...</p>';
+  try{W=await api('wsGet',i);idx=i;$('sel').value=i;done=false;S=load(i);S.ans=S.ans||{};S.chk=S.chk||[];
+    const inf=(()=>{try{return JSON.parse(localStorage.getItem(INFO))||{}}catch(e){return {}}})();
+    ['name','sid','cls'].forEach(k=>{if(!S[k])S[k]=inf[k]||''});
+    history.replaceState(null,'','?lesson='+i);render()}
+  catch(e){fail(e)}
+}
+function render(){
+  const T=new Date().toLocaleDateString('th-TH',{year:'numeric',month:'long',day:'numeric'});
+  const checks=['อ่านอาการที่ลูกค้าแจ้งและข้อมูลเพิ่มเติมครบทุกข้อ','ตั้งสมมติฐานสาเหตุที่เป็นไปได้ก่อนเลือกคำตอบ','เลือกวิธีแก้ไขที่สอดคล้องกับสาเหตุ ไม่เกินเหตุ','ตรวจทานคำตอบก่อนส่ง'];
+  $('sheet').innerHTML=`<h1>${esc(W.title)}</h1><p class="sub">วินิจฉัยอาการเสียคอมพิวเตอร์ • ${W.items.length} ข้อ • คะแนนเต็ม 10</p>
+  <div class="grid"><div><label for="f-name">ชื่อ–นามสกุล *</label><input type="text" id="f-name" value="${esc(S.name)}" autocomplete="name"></div><div><label for="f-sid">รหัสนักศึกษา *</label><input type="text" id="f-sid" inputmode="numeric" value="${esc(S.sid)}"></div><div><label for="f-cls">ชั้น / กลุ่ม</label><input type="text" id="f-cls" value="${esc(S.cls)}" placeholder="เช่น สทด.2/2"></div><div><label>วันที่</label><input type="text" value="${esc(T)}" readonly></div></div>
+  <h2>จุดประสงค์การเรียนรู้</h2><div class="box"><ul><li>วินิจฉัยสาเหตุของอาการเสียคอมพิวเตอร์จากข้อมูลที่ลูกค้าแจ้งได้</li><li>เลือกวิธีแก้ไขที่เหมาะสมกับสาเหตุและเหตุผลสนับสนุนได้</li></ul></div>
+  <h2>ขั้นตอนการวินิจฉัย</h2><ol class="flow"><li>ฟังอาการ</li><li>ถามข้อมูลเพิ่ม</li><li>ตั้งสมมติฐาน</li><li>ตรวจสอบ</li><li>เลือกวิธีแก้</li><li>สรุปผล</li></ol>
+  <h2>ตรวจสอบด้วยตนเอง</h2><div class="box chk">${checks.map((c,i)=>`<label><input type="checkbox" data-chk="${i}" ${S.chk[i]?'checked':''}> ${esc(c)}</label>`).join('')}</div>
+  <h2>สถานการณ์อาการเสีย</h2><div class="bar noprint"><i id="pb"></i></div><div class="sub noprint" id="pt"></div>
+  ${W.items.map((it,n)=>q(it,n)).join('')}
+  <h2>บันทึกสมมติฐานและข้อสังเกต</h2><textarea id="f-hyp" placeholder="เขียนสมมติฐานหรือข้อสังเกตของคุณ (ไม่นับคะแนนอัตโนมัติ ผู้สอนอ่านประกอบ)">${esc(S.hyp||'')}</textarea>
+  <h2>สรุปผล</h2><textarea id="f-sum" placeholder="ได้เรียนรู้อะไร อะไรที่ยังไม่แน่ใจ และจะนำไปใช้ซ่อมจริงอย่างไร">${esc(S.sum||'')}</textarea>
+  <h2>คะแนน</h2><div id="out"></div><div class="noprint" style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="send">ส่งใบงาน</button><button class="btn alt" onclick="menu();history.replaceState(null,'',location.pathname)">เลือกใบงานอื่น</button></div><div id="msg"></div>`;
+  W.items.forEach((it,n)=>{const a=S.ans[it.id]||{};['cause','fix'].forEach(k=>{const v=(it[k==='cause'?'causes':'fixes']||[]).indexOf(a[k]);if(v>=0){const r=document.querySelector(`input[name="${k[0]}_${it.id}"][value="${v}"]`);if(r)r.checked=true}})});
+  prog();if(S.last)showResult(S.last,true);
+}
+function q(it,n){
+  const opts=(k,arr)=>arr.map((t,i)=>`<label><input type="radio" name="${k}_${esc(it.id)}" value="${i}"> <span>${esc(t)}</span></label>`).join('');
+  return `<section class="q" id="q-${esc(it.id)}"><h3>ข้อ ${n+1}<span class="lv">${'★'.repeat(it.level)}</span></h3><div class="sym">${esc(it.symptom)}</div>
+  ${it.hints&&it.hints.length?`<div class="hint">ข้อมูลเพิ่มเติมที่ตรวจพบ: ${it.hints.map(esc).join(' • ')}</div>`:''}
+  <div class="opt"><b>1) สาเหตุที่เป็นไปได้มากที่สุด</b>${opts('c',it.causes)}</div><div class="opt"><b>2) วิธีแก้ไข</b>${opts('f',it.fixes)}</div><div class="fb"></div></section>`;
+}
+function prog(){const n=W.items.filter(it=>S.ans[it.id]&&S.ans[it.id].cause&&S.ans[it.id].fix).length;$('pb').style.width=(100*n/W.items.length)+'%';$('pt').textContent=`ตอบแล้ว ${n} / ${W.items.length} ข้อ`;return n}
+document.addEventListener('input',e=>{
+  if(!S||idx===null)return;const t=e.target;
+  if(t.id==='f-name')S.name=t.value;else if(t.id==='f-sid')S.sid=t.value;else if(t.id==='f-cls')S.cls=t.value;else if(t.id==='f-hyp')S.hyp=t.value;else if(t.id==='f-sum')S.sum=t.value;
+  else if(t.dataset&&t.dataset.chk!==undefined)S.chk[+t.dataset.chk]=t.checked;
+  else if(t.type==='radio'){const m=t.name.match(/^([cf])_(.+)$/),it=W.items.find(x=>x.id===m[2]);if(it){const a=S.ans[it.id]=S.ans[it.id]||{};a[m[1]==='c'?'cause':'fix']=(m[1]==='c'?it.causes:it.fixes)[+t.value];prog()}}
+  save();
+});
+document.addEventListener('click',async e=>{
+  if(e.target.id==='send')return send();
+});
+async function send(){
+  const miss=[];if(!(S.name||'').trim())miss.push('ชื่อ–นามสกุล');if(!(S.sid||'').trim())miss.push('รหัสนักศึกษา');
+  if(miss.length){$('msg').innerHTML=`<div class="err">กรุณากรอก ${miss.join(' และ ')} ก่อนส่งใบงาน</div>`;window.scrollTo({top:0,behavior:'smooth'});return}
+  const n=prog();
+  if(n<W.items.length&&!confirm(`ยังตอบไม่ครบ (${n}/${W.items.length} ข้อ) ต้องการส่งใบงานเลยหรือไม่?`))return;
+  const b=$('send');b.disabled=true;b.textContent='กำลังส่ง...';$('msg').innerHTML='';
+  try{
+    const r=await api('wsSubmit',{lesson:idx,sid:S.sid.trim(),name:S.name.trim(),cls:(S.cls||'').trim(),hyp:S.hyp||'',sum:S.sum||'',
+      answers:W.items.map(it=>({id:it.id,cause:(S.ans[it.id]||{}).cause||'',fix:(S.ans[it.id]||{}).fix||''}))});
+    S.last=r;save();showResult(r);toast('ส่งใบงานสำเร็จ บันทึกลง Google Sheets แล้ว');
+  }catch(err){$('msg').innerHTML=`<div class="err">⚠️ ${esc(err.message)}</div>`}
+  b.disabled=false;b.textContent='ส่งใบงานอีกครั้ง';
+}
+function showResult(r,old){
+  $('out').innerHTML=`<div class="res"><small>${old?'ผลการส่งล่าสุดของใบงานนี้':'ผลการตรวจ (ส่งครั้งที่ '+r.attempt+')'}</small><b>${r.score10} / 10</b><span>ตอบถูก ${r.earned} จาก ${r.max} จุด (สาเหตุ + วิธีแก้)</span></div>`;
+  const by={};(r.review||[]).forEach(v=>by[v.id]=v);
+  W.items.forEach((it,n)=>{const v=by[it.id],el=$('q-'+it.id);if(!v||!el)return;
+    el.className='q '+(v.okC&&v.okF?'good':'bad');
+    el.querySelector('.fb').innerHTML=`<div>${v.okC?'<span class="g">✓ สาเหตุถูกต้อง</span>':'<span class="r">✗ สาเหตุไม่ถูกต้อง</span>'} • ${v.okF?'<span class="g">✓ วิธีแก้ถูกต้อง</span>':'<span class="r">✗ วิธีแก้ไม่ถูกต้อง</span>'}</div>${r.reveal&&!(v.okC&&v.okF)?`<div class="hint">เฉลย — สาเหตุ: ${esc(v.cause)}<br>วิธีแก้: ${esc(v.fix)}</div>`:''}`});
+}
+$('sel').onchange=e=>{e.target.value===''?menu():openLesson(+e.target.value)};
+$('prt').onclick=()=>window.print();
+$('clr').onclick=()=>{if(idx===null)return;if(confirm('ล้างคำตอบที่บันทึกไว้ในเบราว์เซอร์สำหรับใบงานนี้?')){try{localStorage.removeItem(KEY(idx))}catch(e){}openLesson(idx)}};
+start();
+</script>
+</body>
+</html>
